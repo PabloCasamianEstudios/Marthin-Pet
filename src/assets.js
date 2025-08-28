@@ -1,4 +1,4 @@
-import k from './kaplayCtx.js';
+import k from "./kaplayCtx.js";
 
 // sprites
 k.loadSprite("room-background", "graphics/room-background.png");
@@ -11,31 +11,62 @@ k.loadSprite("marthin", "graphics/marthin.png", {
             from: 0,
             to: 4,
             speed: 14,
-            loop: true
+            loop: true,
         },
         sad: {
             from: 5,
             to: 9,
             speed: 14,
-            loop: true
+            loop: true,
         },
         angry: {
             from: 10,
             to: 14,
             speed: 14,
-            loop: true
+            loop: true,
         },
         bored: {
             from: 15,
             to: 19,
             speed: 314,
-            loop: true
-        }
-       
-    }
+            loop: true,
+        },
+    },
 });
+
+k.loadSprite("heart", "graphics/heart.png", {
+    sliceX: 2,
+    sliceY: 1,
+    anims: {
+        live: {
+            from: 0,
+            to: 0,
+            speed: 8,
+            loop: true,
+        },
+        dead: {
+            from: 1,
+            to: 1,
+            speed: 1,
+        },
+    },
+});
+
+k.loadSprite("waffle", "graphics/waffle.png");
+k.loadSprite("poop", "graphics/poop.png");
+
+// buttons
+k.loadSprite("feedButton", "graphics/feedButton.png");
+k.loadSprite("feedButtonHover", "graphics/feedButton-hover.png");
+
+k.loadSprite("playButton", "graphics/playButton.png");
+k.loadSprite("playButtonHover", "graphics/playButton-hover.png");
 
 // fonts
 k.loadFont("Poppins", "fonts/Poppins-Regular.ttf");
 k.loadFont("Poppins-SemiBold", "fonts/Poppins-SemiBold.ttf");
 k.loadFont("Poppins-Bold", "fonts/Poppins-Bold.ttf");
+
+// sounds
+k.loadSound("feed", "sound/eating.mp3");
+k.loadSound("vomiting", "sound/vomiting.mp3");
