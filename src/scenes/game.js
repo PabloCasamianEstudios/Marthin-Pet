@@ -102,9 +102,9 @@ export default function game() {
     const feedButton = k.add([
         k.sprite("feedButton"),
         k.scale(10),
-        k.pos(550, 950),
+        k.pos(535, 950),
         k.anchor("center"),
-        k.area({ shape: new k.Rect(k.vec2(0), 38, 15) }),
+        k.area({ shape: new k.Rect(k.vec2(0), 32, 15) }),
     ]);
 
     feedButton.onHover(() => {
@@ -141,9 +141,9 @@ export default function game() {
     const playButton = k.add([
         k.sprite("playButton"),
         k.scale(10),
-        k.pos(200, 950),
+        k.pos(225, 950),
         k.anchor("center"),
-        k.area({ shape: new k.Rect(k.vec2(0), 38, 15) }),
+        k.area({ shape: new k.Rect(k.vec2(0), 32, 15) }),
     ]);
 
     playButton.onHover(() => {
@@ -160,5 +160,31 @@ export default function game() {
     playButton.onClick(() => {
         k.state.petMoney = money;
         k.go("fallingFoodGame");
+    });
+
+    // shop (not implemented yet)
+
+    const shopButton = k.add([
+        k.sprite("shopButton"),
+        k.scale(10),
+        k.pos(850, 950),
+        k.anchor("center"),
+        k.area({ shape: new k.Rect(k.vec2(0), 32, 15) }),
+    ]);
+
+    shopButton.onHover(() => {
+        shopButton.sprite = "shopButtonHover";
+        document.body.style.cursor = "pointer";
+        k.setCursor("pointer");
+    });
+
+    shopButton.onHoverEnd(() => {
+        shopButton.sprite = "shopButton";
+        k.setCursor("default");
+    });
+
+    shopButton.onClick(() => {
+        k.state.petMoney = money;
+        // k.go("");
     });
 }

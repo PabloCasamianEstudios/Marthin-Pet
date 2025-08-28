@@ -62,6 +62,8 @@ k.loadSprite("feedButtonHover", "graphics/feedButton-hover.png");
 k.loadSprite("playButton", "graphics/playButton.png");
 k.loadSprite("playButtonHover", "graphics/playButton-hover.png");
 
+k.loadSprite("shopButton", "graphics/shopButton.png");
+k.loadSprite("shopButtonHover", "graphics/shopButton-hover.png");
 // fonts
 k.loadFont("Poppins", "fonts/Poppins-Regular.ttf");
 k.loadFont("Poppins-SemiBold", "fonts/Poppins-SemiBold.ttf");

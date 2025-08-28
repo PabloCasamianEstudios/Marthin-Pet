@@ -47,6 +47,19 @@ export default function fallingFoodGame() {
         bgPieces[0].move(-100, 0);
         bgPieces[1].moveTo(bgPieces[0].pos.x + BG_PIECE_WIDTH * 8.6, 0);
 
+        if (insaneMode) {
+            const t = k.time() * 10;
+            const r = k.wave(127, 255, t);
+            const g = k.wave(127, 255, t + 1);
+            const b = k.wave(127, 255, t + 2);
+
+            bgPieces[0].color = k.rgb(r, g, b);
+            bgPieces[0].opacity = 1;
+
+            bgPieces[1].color = k.rgb(r, g, b);
+            bgPieces[1].opacity = 1;
+        }
+
         if (k.mousePos().x > 0 && k.mousePos().x < k.width()) {
             marthin.pos.x = k.mousePos().x;
         }
@@ -78,7 +91,7 @@ export default function fallingFoodGame() {
         }
 
         if (obj.sprite === "poop") {
-            k.shake(12);
+            k.shake(120);
             k.play("vomiting");
             takeDamage();
             k.destroy(obj);
@@ -116,6 +129,7 @@ export default function fallingFoodGame() {
             k.scale(2.5),
             k.pos(k.rand(0, k.width()), 0),
             k.anchor("bot"),
+            k.offscreen({ destroy: true }),
             "flyingObj",
             { speed: k.rand(speedBase * 0.5, speedBase * 1.2) },
         ]);
