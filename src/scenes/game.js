@@ -3,10 +3,15 @@ import k from "../kaplayCtx.js";
 
 export default function game() {
     // const
+    const petStats = {
+        hunger: Number(sessionStorage.getItem("hunger")) || 100,
+        energy: Number(sessionStorage.getItem("energy")) || 100,
+        health: Number(sessionStorage.getItem("health")) || 100,
+    };
+    const baseScale = 20;
 
     // vars
     let money = k.state.petMoney || 0;
-    console.log("Money:", money);
 
     const bgPieceWidth = 1920;
     const bgPieces = [
@@ -82,18 +87,47 @@ export default function game() {
 
             marthin.time += k.dt();
             marthin.pos.y += Math.sin(marthin.time * 4);
+
+            const minFactor = 0.7;
+
+            const factor =
+                minFactor + (petStats.hunger / 100) * (1 - minFactor);
+            marthin.scale = k.vec2(baseScale * factor, baseScale * factor);
         }
     });
 
     marthin.onClick(() => {
         if (activeWaffle) {
             k.play("feed");
+
+            petStats.hunger = Math.min(100, petStats.hunger + 20);
+            sessionStorage.setItem("hunger", petStats.hunger);
+
             const target = marthin.scale.scale(1.1);
             marthin.scale = marthin.scale.lerp(target, 0.2);
-            //marthin.feed();
+
             activeWaffle.destroy();
             activeWaffle = null;
         }
+    });
+
+    const mouth = marthin.add([
+        k.anchor("center"),
+        k.area({ shape: new k.Rect(k.vec2(0, -3), 2, 1) }),
+        "mouth",
+    ]);
+
+    mouth.onCollide("waffle", (w) => {
+        k.play("feed");
+
+        petStats.hunger = Math.min(100, petStats.hunger + 20);
+        sessionStorage.setItem("hunger", petStats.hunger);
+
+        const target = marthin.scale.scale(1.05);
+        marthin.scale = marthin.scale.lerp(target, 0.2);
+
+        w.destroy();
+        activeWaffle = null;
     });
 
     // UI things
@@ -185,6 +219,69 @@ export default function game() {
 
     shopButton.onClick(() => {
         k.state.petMoney = money;
-        // k.go("");
+        // k.go("");g
+    });
+
+    const hungerBar = createStatBar(
+        "Hambre",
+        k.rgb(205, 133, 63),
+        k.vec2(20, 40),
+        () => petStats.hunger
+    );
+    const energyBar = createStatBar(
+        "Energía",
+        k.rgb(255, 215, 0),
+        k.vec2(20, 100),
+        () => petStats.energy
+    );
+    const healthBar = createStatBar(
+        "Salud",
+        k.rgb(220, 20, 60),
+        k.vec2(20, 160),
+        () => petStats.health
+    );
+
+    function createStatBar(label, color, pos, getValue) {
+        const width = 200;
+        const height = 20;
+
+        k.add([
+            k.rect(width, height, { radius: 4 }),
+            k.color(60, 60, 60),
+            k.pos(pos),
+            k.anchor("left"),
+            k.z(200),
+        ]);
+
+        const bar = k.add([
+            k.rect(width, height, { radius: 4 }),
+            k.color(color),
+            k.pos(pos),
+            k.anchor("left"),
+            k.z(201),
+            {
+                update() {
+                    this.width = (getValue() / 100) * width;
+                },
+            },
+        ]);
+
+        k.add([
+            k.text(label, { size: 24, font: "Poppins-SemiBold" }),
+            k.pos(pos.x, pos.y - 30),
+            k.color(255, 255, 255),
+            k.z(202),
+        ]);
+
+        return bar;
+    }
+
+    k.loop(1, () => {
+        petStats.hunger = Math.max(0, petStats.hunger - 0.5);
+        petStats.energy = Math.max(0, petStats.energy - 0.2);
+
+        sessionStorage.setItem("hunger", petStats.hunger);
+        sessionStorage.setItem("energy", petStats.energy);
+        sessionStorage.setItem("health", petStats.health);
     });
 }
