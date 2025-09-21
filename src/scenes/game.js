@@ -219,62 +219,54 @@ export default function game() {
 
     shopButton.onClick(() => {
         k.state.petMoney = money;
-        // k.go("");g
+        // k.go(""); ESCENA QUE TODAVÍA NO EXISTE
     });
 
-    const hungerBar = createStatBar(
-        "Hambre",
-        k.rgb(205, 133, 63),
-        k.vec2(20, 40),
-        () => petStats.hunger
-    );
-    const energyBar = createStatBar(
-        "Energía",
-        k.rgb(255, 215, 0),
-        k.vec2(20, 100),
-        () => petStats.energy
-    );
-    const healthBar = createStatBar(
-        "Salud",
-        k.rgb(220, 20, 60),
-        k.vec2(20, 160),
-        () => petStats.health
-    );
-
-    function createStatBar(label, color, pos, getValue) {
-        const width = 200;
-        const height = 20;
-
-        k.add([
-            k.rect(width, height, { radius: 4 }),
-            k.color(60, 60, 60),
+    function createStatCounter(iconName, getValue, pos) {
+        const icon = k.add([
+            k.sprite(iconName),
+            k.scale(3),
             k.pos(pos),
             k.anchor("left"),
             k.z(200),
         ]);
 
-        const bar = k.add([
-            k.rect(width, height, { radius: 4 }),
-            k.color(color),
-            k.pos(pos),
+        const text = k.add([
+            k.text(getValue(), { font: "Poppins-bold", size: 32 }),
+            k.pos(pos.x + 55, pos.y),
             k.anchor("left"),
+            k.color(255, 255, 255),
             k.z(201),
             {
                 update() {
-                    this.width = (getValue() / 100) * width;
+                    this.text = Math.floor(getValue());
                 },
             },
         ]);
 
-        k.add([
-            k.text(label, { size: 24, font: "Poppins-SemiBold" }),
-            k.pos(pos.x, pos.y - 30),
-            k.color(255, 255, 255),
-            k.z(202),
-        ]);
-
-        return bar;
+        return { icon, text };
     }
+
+    const hungerCounter = createStatCounter(
+        "hungry",
+        () => petStats.hunger,
+        k.vec2(20, 40)
+    );
+    const energyCounter = createStatCounter(
+        "bolt",
+        () => petStats.energy,
+        k.vec2(20, 100)
+    );
+    const healthCounter = createStatCounter(
+        "white-heart",
+        () => petStats.health,
+        k.vec2(20, 160)
+    );
+    const moneyCounter = createStatCounter(
+        "coin",
+        () => money,
+        k.vec2(20, 220)
+    );
 
     k.loop(1, () => {
         petStats.hunger = Math.max(0, petStats.hunger - 0.5);

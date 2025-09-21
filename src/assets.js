@@ -55,6 +55,11 @@ k.loadSprite("heart", "graphics/heart.png", {
 k.loadSprite("waffle", "graphics/waffle.png");
 k.loadSprite("poop", "graphics/poop.png");
 
+k.loadSprite("bolt", "graphics/bolt.png");
+k.loadSprite("coin", "graphics/coin.png");
+k.loadSprite("hungry", "graphics/hungry.png");
+k.loadSprite("white-heart", "graphics/white-heart.png");
+
 // buttons
 k.loadSprite("feedButton", "graphics/feedButton.png");
 k.loadSprite("feedButtonHover", "graphics/feedButton-hover.png");
